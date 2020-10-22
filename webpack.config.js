@@ -38,16 +38,17 @@ module.exports = {
                     }
                 ]
             },
-            // Load images
+            // Load images and other files
             {
-                test: /\.(png|svg|jpg|gif)$/,
+                test: /\.(png|svg|jpg|gif|ico|webmanifest)$/,
                 loader: 'file-loader',
                 options: {
                     name(resourcePath, resourceQuery) {
-                        return `${assets}/[name][sha512:hash:base64:7].[ext]`
-                    }
+                        return `/${assets}/[name][sha512:hash:base64:7].[ext]`
+                    },
+                    esModule: false
                 }
-            }
+            },
         ],
     },
     // Recognize both .ts and .js extensions
@@ -58,6 +59,7 @@ module.exports = {
     output: {
         filename: 'app.js',
         path: path.resolve(__dirname, dist),
+        publicPath: path.resolve(__dirname,dist)
     },
     plugins: [
         // Cleanup the dist directory
