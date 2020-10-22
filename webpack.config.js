@@ -10,6 +10,8 @@ const assets='assets';
 
 // App title
 const title='Webpack/TS/Sass Boilerplate';
+const shortName = title;
+const description = title;
 
 module.exports = {
     // Entrypoint in ./src/scripts/index.ts
@@ -38,6 +40,29 @@ module.exports = {
                     }
                 ]
             },
+            // Load webmanifest
+            {
+                test: /\.webmanifest$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name(resourcePath, resourceQuery) {
+                                return `/[name].[ext]`
+                            },
+                            esModule: false
+                        }
+                    },
+                    {
+                        loader: 'webmanifest-loader',
+                        options: {
+                            name: title,
+                            shortName: shortName,
+                            description: description
+                        }
+                    }
+                ]
+            },
             // Load images
             {
                 test: /\.(png|svg|jpg|gif|ico)$/,
@@ -45,17 +70,6 @@ module.exports = {
                 options: {
                     name(resourcePath, resourceQuery) {
                         return `/${assets}/[name][sha512:hash:base64:7].[ext]`
-                    },
-                    esModule: false
-                }
-            },
-            // Load webmanifest
-            {
-                test: /\.webmanifest$/,
-                loader: 'file-loader',
-                options: {
-                    name(resourcePath, resourceQuery) {
-                        return `/[name].[ext]`
                     },
                     esModule: false
                 }
