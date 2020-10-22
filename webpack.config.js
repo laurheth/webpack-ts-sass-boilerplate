@@ -38,13 +38,24 @@ module.exports = {
                     }
                 ]
             },
-            // Load images and other files
+            // Load images
             {
-                test: /\.(png|svg|jpg|gif|ico|webmanifest)$/,
+                test: /\.(png|svg|jpg|gif|ico)$/,
                 loader: 'file-loader',
                 options: {
                     name(resourcePath, resourceQuery) {
                         return `/${assets}/[name][sha512:hash:base64:7].[ext]`
+                    },
+                    esModule: false
+                }
+            },
+            // Load webmanifest
+            {
+                test: /\.webmanifest$/,
+                loader: 'file-loader',
+                options: {
+                    name(resourcePath, resourceQuery) {
+                        return `/[name].[ext]`
                     },
                     esModule: false
                 }
